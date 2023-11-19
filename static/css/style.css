@@ -1,0 +1,169 @@
+/* 页面整体 */
+body {
+    margin: auto;
+    max-width: 580px;
+    font-size: 14px;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+/* 页脚 */
+footer {
+    color: #888;
+    margin-top: 15px;
+    text-align: center;
+    padding: 10px;
+}
+
+/* 主页 */
+.card {
+    display: flex;
+    margin: 20px 0px;
+    padding: 24px 24px;
+    border: 1px solid #b7b7b7;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+.card span div {
+    padding: 5px 0px;
+}
+
+/* 头像 */
+.avatar {
+    width: 40px;
+}
+
+.intro_pic {
+    width: 200px;
+    margin-left: auto;
+}
+
+/* 电影列表 */
+.movie-list {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+.movie-list div {
+    padding: 12px 24px;
+    border-bottom: 1px solid #ddd;
+}
+
+.movie-list div:hover {
+    background-color: #f8f9fa;
+}
+
+.movie-list div li {
+    padding: 12px 0px;
+}
+
+.movie-list div :last-child {
+    border-bottom:none;
+}
+
+.imdb {
+    font-size: 12px;
+    font-weight: bold;
+    color: black;
+    text-decoration: none;
+    background: #F5C518;
+    border-radius: 5px;
+    padding: 3px 5px;
+}
+
+.id_type {
+    font-size: 12px;
+    font-weight: bold;
+    color: black;
+    text-decoration: none;
+    background: #cff6ef;
+    border-radius: 5px;
+    padding: 3px 5px;
+}
+
+.type_type {
+    font-size: 12px;
+    font-weight: bold;
+    color: black;
+    text-decoration: none;
+    background: #fab5b5;
+    border-radius: 5px;
+    padding: 3px 5px;
+}
+
+.date_type {
+    font-size: 12px;
+    font-weight: bold;
+    color: black;
+    text-decoration: none;
+    background: #c1eea1;
+    border-radius: 5px;
+    padding: 3px 5px;
+}
+
+.country_type {
+    font-size: 12px;
+    font-weight: bold;
+    color: black;
+    text-decoration: none;
+    background: #afb0f2;
+    border-radius: 5px;
+    padding: 3px 5px;
+}
+
+.year_type {
+    font-size: 12px;
+    font-weight: bold;
+    color: black;
+    text-decoration: none;
+    background: #fab7e6;
+    border-radius: 5px;
+    padding: 3px 5px;
+}
+
+.box_type {
+    font-size: 12px;
+    font-weight: bold;
+    color: black;
+    text-decoration: none;
+    background: #f7d0a4;
+    border-radius: 5px;
+    padding: 3px 5px;
+}
+
+/* 龙猫图片 */
+.totoro {
+    display: block;
+    margin: 0 auto;
+    height: 100px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+nav li {
+    float: left;
+}
+
+nav li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 8px 12px;
+    text-decoration: none;
+}
+
+nav li a:hover {
+    background-color: #111;
+}
+
+.float-right {
+    float: right;
+}

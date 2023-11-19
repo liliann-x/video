@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p>共记录{{ actors|length }}位演员</p>
+    <ul class="movie-list">
+    {% for actor in actors %}
+    <div>
+        <li>{{ actor.actor_name }}
+            <span>
+                <a style="margin-left: 10px;" class="id_type" target="_blank">ID: {{ actor.actor_id}}</a>
+            </span>
+            <span>
+                <a class="type_type" target="_blank">{{ actor.gender}}</a>
+            </span>
+            <span>
+                <a class="country_type" target="_blank">{{ actor.country}}</a>
+            </span>
+        </li>
+    </div>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p>检索到{{ movies|length }}个电影</p>
+<ul class="movie-list">
+    {% for movie in movies %}
+    <div>
+        <li>{{ movie.movie_name }} - {{ movie.year }}
+            <span class="float-right">
+                <a class="imdb" href="https://www.imdb.com/find?q={{ movie.movie_name }}" target="_blank" title="Find this movie on IMDb">
+                IMDb</a>
+            </span>
+        </li>
+        <span>
+            <a class="id_type" target="_blank">ID: {{ movie.movie_id}}</a>
+        </span>
+        <span>
+            <a class="type_type" target="_blank">{{ movie.movie_type}}</a>
+        </span>
+        <span>
+            <a class="date_type" target="_blank">{{ movie.release_date }}</a>
+        </span>
+        <span>
+            <a class="country_type" target="_blank">{{ movie.country}}</a>
+        </span>
+        <span>
+            <a class="year_type" target="_blank">{{ movie.year}}</a>
+        </span>
+        <span>
+            <a class="box_type" target="_blank">票房: {{ movie.box}}亿</a>
+        </span>
+    </div>
+    {% endfor %}
+</ul>
+{% endblock %}
