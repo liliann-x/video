@@ -2,10 +2,18 @@
 
 {% block content %}
 <p>检索到{{ movies|length }}个电影</p>
+
+<form method="post">
+    Name <input type="text" name="title" autocomplete="off" required>
+    Year <input type="text" name="year" autocomplete="off" required>
+    <input class="btn" type="submit" name="submit" value="Add">
+</form>
+    
+
 <ul class="movie-list">
     {% for movie in movies %}
     <div>
-        <li>{{ movie.movie_name }} - {{ movie.year }}
+        <li onclick="ToDetail('{{ movie.movie_id }}')" style="cursor: pointer">{{ movie.movie_name }} - {{ movie.year }}
             <span class="float-right">
                 <a class="imdb" href="https://www.imdb.com/find?q={{ movie.movie_name }}" target="_blank" title="Find this movie on IMDb">
                 IMDb</a>
@@ -32,4 +40,14 @@
     </div>
     {% endfor %}
 </ul>
+
+<script>
+    function ToDetail(id) {
+        var movieIdValue = id;
+        var url = "{{ url_for('movie_detail', movie_id='movieIdValue') }}"
+        url = url.replace('movieIdValue', movieIdValue);
+        window.location.href = url;
+    }
+</script>
+
 {% endblock %}

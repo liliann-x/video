@@ -3,7 +3,7 @@ import os, sys, click
 from data_dict import actors, movies, relations
 from datetime import datetime
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request, url_for, redirect, flash
 from flask_sqlalchemy import SQLAlchemy
 
 # --------------------------------------- 系统适配 ---------------------------------------
@@ -15,6 +15,7 @@ else:
 
 # --------------------------------------- 数据库配置 ---------------------------------------
 app = Flask(__name__)
+app.secret_key = 'lyx_secret'
 app.config['SQLALCHEMY_DATABASE_URI'] = prefix + os.path.join(app.root_path, 'data.db')
 db = SQLAlchemy(app)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -89,17 +90,64 @@ def index():
     relations = MovieActorRelation.query.all()
     return render_template('index.html', movies=movies, actors=actors, relations=relations)
 
-@app.route('/movie')
+@app.route('/movie', methods=['GET', 'POST'])
 def movie():
     movies = MovieInfo.query.all()
     relations = MovieActorRelation.query.all()
     return render_template('movie.html', movies=movies, relations=relations)
 
-@app.route('/actor')
+@app.route('/actor', methods=['GET', 'POST'])
 def actor():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        gender = request.form.get('gender')
+        country = request.form.get('country')
+        file = None
+        if 'file' in request.files:
+            file = request.files['file']
+        if not name or not gender or not country:
+            flash('Invalid Input')
+            return redirect(url_for('actor'))
+        max_id = db.session.query(db.func.max(ActorInfo.actor_id)).scalar()
+        new_id = int(max_id) + 1
+        actor = ActorInfo(actor_id = str(new_id), actor_name=name, gender=gender, country=country)
+        if file:
+            file.save("./static/images/actor/" + str(new_id) + ".jpg")
+        db.session.add(actor)
+        db.session.commit()
+        flash('Actor created')
+        return redirect(url_for('actor'))
+        
     actors = ActorInfo.query.all()
     relations = MovieActorRelation.query.all()
     return render_template('actor.html',actors=actors, relations=relations)
+
+@app.route('/actor_detail/<actor_id>')
+def actor_detail(actor_id):
+    actor = ActorInfo.query.get(actor_id)
+    relations = MovieActorRelation.query.filter_by(actor_id=actor_id)
+    act_works, direct_works = [], []
+    for relation in relations:
+        if relation.relation_type == '主演':
+            act_works.append(MovieInfo.query.get(relation.movie_id))
+        else:
+            direct_works.append(MovieInfo.query.get(relation.movie_id))
+
+    return render_template('actor_detail.html',actor_id=actor_id, actor=actor, act_works=act_works, direct_works=direct_works)
+
+@app.route('/movie_detail/<movie_id>')
+def movie_detail(movie_id):
+    movie = MovieInfo.query.get(movie_id)
+    relations = MovieActorRelation.query.filter_by(movie_id=movie_id)
+    actors, directors = [], []
+    for relation in relations:
+        if relation.relation_type == '主演':
+            actors.append(ActorInfo.query.get(relation.actor_id))
+        else:
+            directors.append(ActorInfo.query.get(relation.actor_id))
+
+    return render_template('movie_detail.html',movie_id=movie_id, movie=movie, actors=actors, directors=directors)
+
 
 @app.route('/love')
 def love():

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <span>
+        <div>姓名：{{actor.actor_name}}</div>
+        <div>性别：{{actor.gender}}</div>
+        <div>国家：{{actor.country}}</div>
+        <div class="work">
+            <div>饰演作品：</div>
+            {% if act_works|length > 0 %}
+                {% for work in act_works %}
+                <div class="redirect" onclick="ActorDetailToMovieDetail('{{work.movie_id}}')">{{work.movie_name}}</div>
+                {% endfor %}
+            {% else %}
+                <a>无</a>
+            {% endif %}
+            <div>导演作品：</div>
+            {% if direct_works|length > 0 %}
+                {% for work in direct_works %}
+                <div class="redirect" onclick="ActorDetailToMovieDetail('{{work.movie_id}}')">{{work.movie_name}}</div>
+                {% endfor %}
+            {% else %}
+                <a>无</a>
+            {% endif %}
+        </div>
+    </span>
+    <img id="intro_pic" alt="Intro" class="intro_pic" src="">
+</div>
+
+<script>
+    function ActorDetailToMovieDetail(movie_id) {
+        var movieIdValue = movie_id;
+        var url = "{{ url_for('movie_detail', movie_id='movieIdValue') }}"
+        url = url.replace('movieIdValue', movieIdValue);
+        window.location.href = url;
+    }
+    var actorId = "{{ actor_id }}";  // 从模板变量获取actorId的值
+    var imageUrl = "{{ url_for('static', filename='images/actor/') }}";
+    var introPic = document.getElementById('intro_pic');
+    introPic.src = imageUrl + actorId + '.jpg';
+</script>
+{% endblock %}

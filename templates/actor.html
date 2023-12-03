@@ -2,10 +2,24 @@
 
 {% block content %}
 <p>共记录{{ actors|length }}位演员</p>
-    <ul class="movie-list">
+
+<form method="post" style="font-size: 10px; width: 100%;" enctype="multipart/form-data">
+    <div>
+        姓名 <input id="name-input" type="text" name="name" autocomplete="off" required>
+        性别 <input id="gender-input" type="text" name="gender" autocomplete="off" required>
+        国家 <input id="country-input" type="text" name="country" autocomplete="off" required>
+    </div>
+    <div id="upload-form" style="display: flex; align-items: center;">
+        <div style="margin-right: 5px;">介绍图</div>
+        <input id="file-input" type="file" class="pic" name="pic" autocomplete="off">
+        <button class="btn" onclick="submitForm()">ADD</button>
+    </div>
+</form>
+
+<ul class="movie-list">
     {% for actor in actors %}
     <div>
-        <li>{{ actor.actor_name }}
+        <li onclick="ToDetail('{{ actor.actor_id }}')" style="cursor: pointer">{{ actor.actor_name }}
             <span>
                 <a style="margin-left: 10px;" class="id_type" target="_blank">ID: {{ actor.actor_id}}</a>
             </span>
@@ -19,4 +33,37 @@
     </div>
     {% endfor %}
 </ul>
+
+<script>
+    function submitForm() {
+        var fileInput = document.getElementById('file-input');
+        var file = fileInput.files[0];
+
+        var nameInput = document.getElementById('name-input')
+        var name = nameInput.value;
+        var genderInput = document.getElementById('gender-input')
+        var gender = genderInput.value;
+        var countryInput = document.getElementById('country-input')
+        var country = countryInput.value;
+
+        var formData = new FormData();
+        if (file) {
+            formData.append('file', file);
+        }
+        formData.append('name', name);
+        formData.append('gender', gender);
+        formData.append('country', country);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/actor');
+        xhr.send(formData);
+    }
+
+    function ToDetail(id) {
+        var actorIdValue = id;
+        var url = "{{ url_for('actor_detail', actor_id='actorIdValue') }}"
+        url = url.replace('actorIdValue', actorIdValue);
+        window.location.href = url;
+    }
+</script>
 {% endblock %}
